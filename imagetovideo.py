@@ -65,13 +65,18 @@ def images_to_video(input_folder, output_video, fps=24, size=None):
     print(f"视频已成功保存至：{output_video}")
 
 if __name__ == "__main__":
-    # 用户配置参数
-    input_folder = "eall/tencode"  # 替换为你的图片文件夹路径
-    output_video = "eall/tencode.mp4"
-    
-    # 调用转换函数
-    images_to_video(
-        input_folder,
-        output_video,
-        fps=7,            # 可调整帧率
-    )
+
+    if not os.path.exists("eall/video"):
+        os.makedirs("eall/video")
+
+    for i in range(10):
+        # 用户配置参数
+        input_folder = f"eall/seq{i}"  # 替换为你的图片文件夹路径
+        output_video = f"eall/video/{i}.mp4"
+        
+        # 调用转换函数
+        images_to_video(
+            input_folder,
+            output_video,
+            fps=240,            # 可调整帧率
+        )

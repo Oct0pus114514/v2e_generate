@@ -85,7 +85,7 @@ def plot_image(image, lognorm=False, cmap='gray'):
         cmap='viridis'
     image = cv.normalize(image, None, 0, 1.0, cv.NORM_MINMAX)
     plt.imshow(image, cmap=cmap)
-    plt.show()
+    plt.savefig('eall/0.jpg')
 
 def save_image(image, lognorm=False, cmap='gray', save_path="/tmp/img.jpg"):
     """
@@ -160,7 +160,7 @@ def events_to_image(xs, ys, ps, sensor_size=(180, 240), interpolation=None, padd
     if interpolation == 'bilinear' and xs.dtype is not torch.long and xs.dtype is not torch.long:
         xt, yt, pt = torch.from_numpy(xs), torch.from_numpy(ys), torch.from_numpy(ps)
         xt, yt, pt = xt.float(), yt.float(), pt.float()
-        img = events_to_image_torch(xt, yt, pt, clip_out_of_range=True, interpolation='bilinear', padding=padding)
+        img = events_to_image_torch(xt, yt, pt, clip_out_of_range=True, sensor_size=sensor_size,interpolation='bilinear', padding=padding)
         img = img.numpy()
     else:
         coords = np.stack((ys, xs))

@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # 基础配置
-INPUT_DIR="./input"   # 总输入目录
+INPUT_DIR="./events_input"   # 总输入目录
 OUTPUT_BASE="./upsampled"   # 总输出目录
-GPUS=(4 5 6 7)              # 指定要使用的GPU编号（默认值，可通过命令行覆盖）
+GPUS=(0 1)              # 指定要使用的GPU编号（默认值，可通过命令行覆盖）
 
 # 解析命令行参数（支持覆盖默认GPU列表）
 while [[ $# -gt 0 ]]; do

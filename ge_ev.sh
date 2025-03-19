@@ -5,7 +5,7 @@ INPUT_DIR="./upsampled"
 OUTPUT_DIR="./events"
 
 # 可用GPU列表（根据实际GPU ID修改）
-GPUS=(4 5 6 7)  # 示例：4张GPU
+GPUS=(0 1)  # 示例：4张GPU
 NUM_GPUS=${#GPUS[@]}
 
 # 获取所有需要处理的子目录列表（确保路径分隔符正确处理）
