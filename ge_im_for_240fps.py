@@ -1,6 +1,7 @@
 import glob
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib.colors as mcolors
 import os
 
 def read_data(file_path):
@@ -14,6 +15,10 @@ def plot_and_save(x,y,p,path):
     num_events = len(x)
     img = np.zeros(shape=img_size, dtype=int)
 
+    positions = [0.0, 0.5, 1.0]
+    colors = ['blue', 'white', 'red']
+    cmap = mcolors.LinearSegmentedColormap.from_list('blue_white_red', list(zip(positions, colors)))
+
     for i in range(num_events):
         if y[i]<img.shape[0] and x[i]<img.shape[1]:
             img[y[i], x[i]] = p[i]
@@ -21,7 +26,7 @@ def plot_and_save(x,y,p,path):
     # draw image
     fig = plt.figure()
     fig.suptitle('Event Frame')
-    plt.imshow(img, cmap='RdBu_r')
+    plt.imshow(img, cmap=cmap,vmin=-1,vmax=1)
     plt.colorbar()
     plt.savefig(path)
     plt.close()
@@ -41,6 +46,7 @@ if __name__=='__main__':
             os.makedirs(f'eall/seq{i}')
         for file in all_files:
             t,x,y,p=read_data(file)
+            t=t/1e9
             ts.append(t)
             xs.append(x)
             ys.append(y)
