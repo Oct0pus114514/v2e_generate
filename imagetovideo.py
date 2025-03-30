@@ -3,6 +3,7 @@ import numpy as np
 from PIL import Image
 import os
 from natsort import natsorted
+import argparse
 
 def images_to_video(input_folder, output_video, fps=24, size=None):
     """
@@ -66,17 +67,17 @@ def images_to_video(input_folder, output_video, fps=24, size=None):
 
 if __name__ == "__main__":
 
-    if not os.path.exists("eall/video"):
-        os.makedirs("eall/video")
-
-    for i in range(10):
-        # 用户配置参数
-        input_folder = f"eall/seq{i}"  # 替换为你的图片文件夹路径
-        output_video = f"eall/video/{i}.mp4"
-        
-        # 调用转换函数
-        images_to_video(
-            input_folder,
-            output_video,
-            fps=240,            # 可调整帧率
-        )
+    parser=argparse.ArgumentParser()
+    parser.add_argument('-i','--input_folder',type=str,required=True,help='输入图片文件夹路径')
+    parser.add_argument('-o','--output_video',type=str,required=True,help='输出视频文件路径')
+    parser.add_argument('-f','--fps',type=int,help='视频帧率',default=240)
+    input_folder = parser.parse_args().input_folder
+    output_video = parser.parse_args().output_video
+    fps=parser.parse_args().fps
+    
+    # 调用转换函数
+    images_to_video(
+        input_folder,
+        output_video,
+        fps=fps,            # 可调整帧率
+    )

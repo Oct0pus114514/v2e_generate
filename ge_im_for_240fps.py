@@ -2,6 +2,7 @@ import glob
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.colors as mcolors
+import argparse
 import os
 
 def read_data(file_path):
@@ -39,23 +40,26 @@ def sort_list_by_ts(lists):
 
 if __name__=='__main__':
     
-    for i in range(10):
-        ts,xs,ys,ps=[],[],[],[]
-        all_files=glob.glob(f'events/seq{i}/*.npz')
-        if not os.path.exists(f'eall/seq{i}'):
-            os.makedirs(f'eall/seq{i}')
-        for file in all_files:
-            t,x,y,p=read_data(file)
-            t=t/1e9
-            ts.append(t)
-            xs.append(x)
-            ys.append(y)
-            ps.append(p)
-        sorted_lists=sort_list_by_ts([ts,xs,ys,ps])
-        ts,xs,ys,ps=sorted_lists
-        for j in range(len(ts)-10):
-            plot_and_save(np.concatenate(xs[j:j+10]),
-                          np.concatenate(ys[j:j+10]),
-                          np.concatenate(ps[j:j+10]),
-                          f'eall/seq{i}/frame{j}.png')
+    parser=argparse.ArgumentParser()
+    parser.add_argument('-i','--input_folder',type=str,required=True,help='输入事件数据文件夹路径')
+    parser.add_argument('-o','--output_folder',type=str,required=True,help='输出图片文件夹路径')
+    input_dir=parser.parse_args().input_folder
+    output_dir=parser.parse_args().output_folder
+    all_files=sorted(glob.glob(os.path.join(input_dir,'*.npz')))
+
+    ts,xs,ys,ps=[],[],[],[]
+    for file in all_files:
+        t,x,y,p=read_data(file)
+        t=t/1e9
+        ts.append(t)
+        xs.append(x)
+        ys.append(y)
+        ps.append(p)
+    sorted_lists=sort_list_by_ts([ts,xs,ys,ps])
+    ts,xs,ys,ps=sorted_lists
+    for j in range(len(ts)-10):
+        plot_and_save(np.concatenate(xs[j:j+10]),
+                        np.concatenate(ys[j:j+10]),
+                        np.concatenate(ps[j:j+10]),
+                        f'{output_dir}/frame{j}.png')
     # print(ts)
